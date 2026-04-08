@@ -1,0 +1,120 @@
+# ════════════════════════════════════════════════════════════════
+# deploy.yml  —  Build → Push → Deploy to Cloud Run
+#
+# Triggers on every push to main (i.e. after a PR is merged).
+#
+# GCP authentication uses Workload Identity Federation — no
+# long-lived service-account key files are stored in GitHub.
+#
+# Required GitHub Actions secrets / variables:
+#   GCP_PROJECT_ID                — Google Cloud project ID
+#   GCP_REGION                    — e.g. europe-west1
+#   GCP_WORKLOAD_IDENTITY_PROVIDER — full WIF provider resource name
+#                                    projects/<NUM>/locations/global/
+#                                    workloadIdentityPools/<POOL>/
+#                                    providers/<PROVIDER>
+#   GCP_SERVICE_ACCOUNT           — SA email that the WIF pool can impersonate
+#                                    e.g. github-deploy@<project>.iam.gserviceaccount.com
+#   TF_VAR_project_id             — (optional) passed to terraform apply
+# ════════════════════════════════════════════════════════════════
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:   # allow manual re-deploys from the GitHub UI
+
+permissions:
+  contents: read
+  id-token: write   # required for Workload Identity Federation
+
+env:
+  PROJECT_ID:    ${{ secrets.GCP_PROJECT_ID }}
+  REGION:        ${{ secrets.GCP_REGION }}
+  SERVICE_NAME:  manu-folio        # must match var.name in terraform
+  IMAGE_NAME:    manu-folio
+
+jobs:
+  # ── Build & Push container image ────────────────────────────
+  build-and-push:
+    name: Build & Push image
+    runs-on: ubuntu-latest
+
+    outputs:
+      image: ${{ steps.meta.outputs.image }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Authenticate to GCP via Workload Identity Federation
+      - id: auth
+        name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account:            ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      # Configure Docker to push to Artifact Registry
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+
+      # Derive the full image URL: <region>-docker.pkg.dev/<project>/<repo>/<name>:<sha>
+      - id: meta
+        name: Derive image tag
+        run: |
+          REPO="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}-repo/${{ env.IMAGE_NAME }}"
+          SHA_TAG="${REPO}:${{ github.sha }}"
+          LATEST_TAG="${REPO}:latest"
+          echo "image=${SHA_TAG}" >> "$GITHUB_OUTPUT"
+          echo "sha_tag=${SHA_TAG}"   >> "$GITHUB_ENV"
+          echo "latest_tag=${LATEST_TAG}" >> "$GITHUB_ENV"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: app
+          file: app/Dockerfile
+          push: true
+          tags: |
+            ${{ env.sha_tag }}
+            ${{ env.latest_tag }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: false   # keeps manifest compatible with Cloud Run
+
+  # ── Deploy to Cloud Run ──────────────────────────────────────
+  deploy:
+    name: Deploy to Cloud Run
+    runs-on: ubuntu-latest
+    needs: build-and-push
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: auth
+        name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account:            ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service:    ${{ env.SERVICE_NAME }}
+          region:     ${{ env.REGION }}
+          image:      ${{ needs.build-and-push.outputs.image }}
+          # Pass through any extra flags if needed; traffic shifts to new revision immediately
+          flags: >-
+            --ingress=internal-and-cloud-load-balancing
+            --min-instances=0
+
+      - name: Show deployed URL
+        run: |
+          echo "Deployment complete."
+          echo "Cloud Run service: ${{ env.SERVICE_NAME }}"
+          echo "Image: ${{ needs.build-and-push.outputs.image }}"

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kaushikmanu Patel — Senior Software Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ──────────────────────────── NAV ──────────────────────────── -->
+  <nav id="navbar">
+    <div class="nav-brand">KM<span class="dot">.</span></div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#journey">Journey</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ──────────────────────────── HERO ──────────────────────────── -->
+  <section id="hero">
+    <div class="hero-bg">
+      <canvas id="particle-canvas"></canvas>
+    </div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">👋 Hello, I'm</p>
+      <h1 class="hero-name">Kaushikmanu<br /><span class="accent">Patel</span></h1>
+      <p class="hero-title">Senior Software Developer &amp; <span class="typed-wrapper"><span id="typed"></span><span class="cursor">|</span></span></p>
+      <p class="hero-location">📍 Almere, Netherlands &nbsp;·&nbsp; 14+ Years Experience</p>
+      <div class="hero-cta">
+        <a href="#journey" class="btn btn-primary">Explore My Journey</a>
+        <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ──────────────────────────── ABOUT ──────────────────────────── -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="section-label">About</div>
+      <div class="about-grid">
+        <div class="about-text fade-in">
+          <h2>Building the future, <span class="accent">one system at a time.</span></h2>
+          <p>With over <strong>14 years</strong> of diverse experience I've played multiple roles — Cloud Architect, GenAI Engineer, DevOps Engineer, Full Stack Developer, and Support Engineer — each one sharpening my ability to see the Bigger Picture.</p>
+          <p>I specialize in bridging the gap between technical complexity and business value. From designing disaster-recovery automation to building AI agent applications with Google ADK and Microsoft 365, I thrive where engineering meets innovation.</p>
+        </div>
+        <div class="about-cards fade-in">
+          <div class="stat-card">
+            <span class="stat-number" data-target="14">0</span><span class="stat-suffix">+</span>
+            <span class="stat-label">Years Experience</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" data-target="5">0</span><span class="stat-suffix"></span>
+            <span class="stat-label">Companies</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" data-target="3">0</span><span class="stat-suffix"></span>
+            <span class="stat-label">Cloud Platforms</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" data-target="10">0</span><span class="stat-suffix">+</span>
+            <span class="stat-label">Tech Domains</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────────────── JOURNEY ──────────────────────────── -->
+  <section id="journey" class="section section-dark">
+    <div class="container">
+      <div class="section-label">Career Journey</div>
+      <h2 class="section-title">Where I've <span class="accent">Been</span></h2>
+      <div class="timeline">
+
+        <!-- Job 1 -->
+        <div class="timeline-item active" data-job="0">
+          <div class="timeline-marker">
+            <div class="marker-dot"></div>
+          </div>
+          <div class="timeline-card fade-in">
+            <div class="card-header">
+              <div>
+                <div class="card-company">Ingka Digital — IKEA</div>
+                <div class="card-role">Senior Software Engineer</div>
+                <div class="card-meta">📍 Amsterdam, Netherlands &nbsp;·&nbsp; Sept 2021 — Present</div>
+              </div>
+              <div class="card-badge current">Current</div>
+            </div>
+            <p class="card-tagline">Driving IKEA's next-generation Automation Orchestration Platform and AI-driven capabilities for Fulfillment Units worldwide.</p>
+            <div class="card-highlights">
+              <div class="highlight">
+                <span class="h-icon">🤖</span>
+                <div><strong>AI & GenAI</strong> — Leading AI agent applications using Google ADK and Microsoft 365 Agent Toolkit; active AI Champions contributor.</div>
+              </div>
+              <div class="highlight">
+                <span class="h-icon">🏗️</span>
+                <div><strong>Platform Engineering</strong> — Designed vendor-agnostic automation orchestration platform that decouples vendor systems and accelerates rollout at scale.</div>
+              </div>
+              <div class="highlight">
+                <span class="h-icon">📦</span>
+                <div><strong>Algorithm Design</strong> — Custom bin-packing algorithm in Python handling nesting, fragile items, cavity detection, and reducible packaging.</div>
+              </div>
+              <div class="highlight">
+                <span class="h-icon">🔄</span>
+                <div><strong>Event-Driven Systems</strong> — Asynchronous workflows with idempotency, retry, and reprocessing for reliable operations at scale.</div>
+              </div>
+              <div class="highlight">
+                <span class="h-icon">🚨</span>
+                <div><strong>Disaster Recovery</strong> — End-to-end DR automation: boots full environment from blank GCP project, restores services, validates tests, self-cleans.</div>
+              </div>
+              <div class="highlight">
+                <span class="h-icon">⚡</span>
+                <div><strong>Developer Productivity</strong> — Jira → GitHub → AI coding agent automation; MCP-based VS Code workflows for traceable code generation.</div>
+              </div>
+            </div>
+            <div class="card-tags">
+              <span>Python</span><span>GCP</span><span>BigQuery</span><span>Terraform</span><span>GitHub Actions</span><span>Google ADK</span><span>SignalFx</span><span>Solace</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Job 2 -->
+        <div class="timeline-item" data-job="1">
+          <div class="timeline-marker">
+            <div class="marker-dot"></div>
+          </div>
+          <div class="timeline-card fade-in">
+            <div class="card-header">
+              <div>
+                <div class="card-company">TD SYNNEX</div>
+                <div class="card-role">Java Cloud Developer</div>
+                <div class="card-meta">📍 Rotterdam, Netherlands &nbsp;·&nbsp; Jan 2019 — Aug 2021</div>
+              </div>
+            </div>
+            <p class="card-tagline">Built a one-click deployment platform enabling fast, secure, and repeatable cloud environment provisioning across Azure and AWS.</p>
+            <div class="card-highlights">
+              <div class="highlight">
+                <span class="h-icon">☁️</span>
+                <div><strong>Cloud Platform</strong> — Designed RESTful microservices to deploy configurable cloud solutions on Azure and AWS.</div>
+              </div>
+              <div class="highlight">
+                <span class="h-icon">🔐</span>
+                <div><strong>Security</strong> — Implemented authentication and authorization using Azure AD and Microsoft Graph API.</div>
+              </div>
+              <div class="highlight">
+                <span class="h-icon">⚙️</span>
+                <div><strong>Automation</strong> — End-to-end deployments via Jenkins, Ansible, and PowerShell; migrated microservices to Kubernetes.</div>
+              </div>
+            </div>
+            <div class="card-tags">
+              <span>Java</span><span>Spring Boot</span><span>Azure</span><span>AWS</span><span>Kubernetes</span><span>Jenkins</span><span>Ansible</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Job 3 -->
+        <div class="timeline-item" data-job="2">
+          <div class="timeline-marker">
+            <div class="marker-dot"></div>
+          </div>
+          <div class="timeline-card fade-in">
+            <div class="card-header">
+              <div>
+                <div class="card-company">HSBC <span style="font-weight:400;opacity:0.6">via Wipro Technologies</span></div>
+                <div class="card-role">Senior Software Engineer</div>
+                <div class="card-meta">📍 India &nbsp;·&nbsp; Jul 2016 — Dec 2018</div>
+              </div>
+            </div>
+            <p class="card-tagline">Built and deployed standardized microservices for enterprise banking systems at one of the world's largest banks.</p>
+            <div class="card-highlights">
+              <div class="highlight">
+                <span class="h-icon">🏦</span>
+                <div><strong>Banking Platform</strong> — Java & Spring Boot microservices with automated CI/CD pipelines and shared error-handling.</div>
+              </div>
+            </div>
+            <div class="card-tags">
+              <span>Java</span><span>Spring Boot</span><span>Microservices</span><span>CI/CD</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Job 4 -->
+        <div class="timeline-item" data-job="3">
+          <div class="timeline-marker">
+            <div class="marker-dot"></div>
+          </div>
+          <div class="timeline-card fade-in">
+            <div class="card-header">
+              <div>
+                <div class="card-company">Accenture</div>
+                <div class="card-role">Senior Software Engineer</div>
+                <div class="card-meta">📍 India &nbsp;·&nbsp; Jul 2015 — Jun 2016</div>
+              </div>
+            </div>
+            <p class="card-tagline">Improved performance of legacy insurance applications and designed reusable UI components.</p>
+            <div class="card-highlights">
+              <div class="highlight">
+                <span class="h-icon">🛡️</span>
+                <div><strong>Insurance Domain</strong> — Performance optimization of legacy apps; reusable UI components with Spring and JSF.</div>
+              </div>
+            </div>
+            <div class="card-tags">
+              <span>Java</span><span>Spring</span><span>JSF</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Job 5 -->
+        <div class="timeline-item" data-job="4">
+          <div class="timeline-marker">
+            <div class="marker-dot"></div>
+          </div>
+          <div class="timeline-card fade-in">
+            <div class="card-header">
+              <div>
+                <div class="card-company">Tata Consultancy Services</div>
+                <div class="card-role">System Engineer</div>
+                <div class="card-meta">📍 India &nbsp;·&nbsp; Mar 2011 — Jul 2015</div>
+              </div>
+            </div>
+            <p class="card-tagline">Built and optimized large-scale enterprise systems across data quality, finance, and internal workflow platforms.</p>
+            <div class="card-highlights">
+              <div class="highlight">
+                <span class="h-icon">🌐</span>
+                <div><strong>Enterprise Systems</strong> — Java/J2EE applications, led feature development, improved performance, mentored junior engineers.</div>
+              </div>
+            </div>
+            <div class="card-tags">
+              <span>Java</span><span>J2EE</span><span>Enterprise</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────────────── SKILLS ──────────────────────────── -->
+  <section id="skills" class="section">
+    <div class="container">
+      <div class="section-label">Expertise</div>
+      <h2 class="section-title">What I <span class="accent">Do</span></h2>
+      <div class="skills-grid">
+
+        <div class="skill-category fade-in">
+          <div class="skill-icon">🤖</div>
+          <h3>AI Engineering</h3>
+          <p>Building GenAI solutions with Google ADK, Microsoft 365 Agent Toolkit, and Copilot Studio. Fine-tuning instructions and context management.</p>
+          <div class="skill-tags">
+            <span>Google ADK</span><span>Copilot Studio</span><span>LLM Integration</span><span>Prompt Engineering</span>
+          </div>
+        </div>
+
+        <div class="skill-category fade-in">
+          <div class="skill-icon">☁️</div>
+          <h3>Cloud Platforms</h3>
+          <p>Multi-cloud architecture and deployments across GCP, Azure, and AWS — from serverless to Kubernetes-native solutions.</p>
+          <div class="skill-tags">
+            <span>GCP</span><span>Azure</span><span>AWS</span><span>Cloud-Native</span>
+          </div>
+        </div>
+
+        <div class="skill-category fade-in">
+          <div class="skill-icon">🏗️</div>
+          <h3>Infrastructure as Code</h3>
+          <p>Writing production-grade Terraform modules and reusable GitHub workflow actions to standardize infrastructure and CI/CD at scale.</p>
+          <div class="skill-tags">
+            <span>Terraform</span><span>Kubernetes</span><span>GitHub Actions</span><span>GitLab CI/CD</span>
+          </div>
+        </div>
+
+        <div class="skill-category fade-in">
+          <div class="skill-icon">💻</div>
+          <h3>Software Development</h3>
+          <p>Full-stack engineering with TypeScript/JavaScript, Python, and Java. API design, event-driven systems, and distributed architectures.</p>
+          <div class="skill-tags">
+            <span>TypeScript</span><span>Python</span><span>Java/Spring</span><span>Node.js</span>
+          </div>
+        </div>
+
+        <div class="skill-category fade-in">
+          <div class="skill-icon">🔐</div>
+          <h3>Security & APIs</h3>
+          <p>API design and security using OAuth2, Azure AD, and Microsoft Graph API. Solution architect with a security-first mindset.</p>
+          <div class="skill-tags">
+            <span>OAuth2</span><span>API Design</span><span>Azure AD</span><span>Security Engineering</span>
+          </div>
+        </div>
+
+        <div class="skill-category fade-in">
+          <div class="skill-icon">📊</div>
+          <h3>Data & Observability</h3>
+          <p>BigQuery analytics, LLM-powered insights, monitoring pipelines (SignalFx, iLert, Solace) for full operational visibility.</p>
+          <div class="skill-tags">
+            <span>BigQuery</span><span>SignalFx</span><span>iLert</span><span>Data Analytics</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────────────── EDUCATION ──────────────────────────── -->
+  <section id="education" class="section section-dark">
+    <div class="container">
+      <div class="section-label">Education &amp; Certifications</div>
+      <h2 class="section-title">Academic <span class="accent">Background</span></h2>
+      <div class="edu-grid">
+        <div class="edu-card fade-in">
+          <div class="edu-icon">🎓</div>
+          <div>
+            <div class="edu-degree">Bachelor of Electronic Engineering</div>
+            <div class="edu-school">Hemchandracharya North Gujarat University</div>
+            <div class="edu-year">2006 – 2009</div>
+          </div>
+        </div>
+        <div class="edu-card fade-in">
+          <div class="edu-icon">🏅</div>
+          <div>
+            <div class="edu-degree">AWS Certified Developer – Associate</div>
+            <div class="edu-school">Amazon Web Services</div>
+            <div class="edu-year">Certified (Expired)</div>
+          </div>
+        </div>
+        <div class="edu-card fade-in">
+          <div class="edu-icon">🌍</div>
+          <div>
+            <div class="edu-degree">Languages</div>
+            <div class="edu-school">English (Fluent) &nbsp;·&nbsp; Dutch (Beginner)</div>
+            <div class="edu-year">Almere, Netherlands</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────────────── CONTACT ──────────────────────────── -->
+  <section id="contact" class="section">
+    <div class="container contact-container fade-in">
+      <div class="section-label">Contact</div>
+      <h2 class="section-title">Let's <span class="accent">Connect</span></h2>
+      <p class="contact-sub">Whether it's a project, collaboration, or just a chat — I'm always open.</p>
+      <div class="contact-links">
+        <a href="mailto:kaushikmanu.patel@outlook.com" class="contact-card">
+          <span class="cc-icon">✉️</span>
+          <div>
+            <div class="cc-label">Email</div>
+            <div class="cc-value">kaushikmanu.patel@outlook.com</div>
+          </div>
+        </a>
+        <a href="https://www.linkedin.com/in/kaushikmanu-patel/" target="_blank" rel="noopener noreferrer" class="contact-card">
+          <span class="cc-icon">💼</span>
+          <div>
+            <div class="cc-label">LinkedIn</div>
+            <div class="cc-value">kaushikmanu-patel</div>
+          </div>
+        </a>
+        <a href="https://github.com/kaushikmanu" target="_blank" rel="noopener noreferrer" class="contact-card">
+          <span class="cc-icon">🐙</span>
+          <div>
+            <div class="cc-label">GitHub</div>
+            <div class="cc-value">kaushikmanu</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────────────── FOOTER ──────────────────────────── -->
+  <footer>
+    <p>Designed &amp; built by <strong>Kaushikmanu Patel</strong> · Hosted on Google Cloud Run</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

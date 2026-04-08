@@ -1,0 +1,77 @@
+# ════════════════════════════════════════════════════════════════
+# ci.yml  —  Pull Request validation
+#
+# Runs on every PR targeting main:
+#   1. Lint Dockerfile (hadolint)
+#   2. Terraform format check + validate
+#   3. Docker build (no push — smoke-test the image builds cleanly)
+# ════════════════════════════════════════════════════════════════
+
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]   # also runs on merge so the status badge stays green
+
+permissions:
+  contents: read
+
+jobs:
+  # ── 1. Lint Dockerfile ──────────────────────────────────────
+  lint-dockerfile:
+    name: Lint Dockerfile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run hadolint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: app/Dockerfile
+          failure-threshold: warning   # treat warnings as failures
+
+  # ── 2. Validate Terraform ───────────────────────────────────
+  validate-terraform:
+    name: Validate Terraform
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "~> 1.5"
+
+      - name: terraform fmt check
+        run: terraform fmt -check -recursive
+
+      - name: terraform init (local backend)
+        run: terraform init -backend=false
+
+      - name: terraform validate
+        run: terraform validate
+
+  # ── 3. Build Docker image ───────────────────────────────────
+  build-image:
+    name: Build Docker image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build (no push)
+        uses: docker/build-push-action@v6
+        with:
+          context: app
+          file: app/Dockerfile
+          push: false
+          tags: manu-folio:pr-${{ github.event.pull_request.number || 'main' }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
