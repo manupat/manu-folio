@@ -73,7 +73,9 @@ resource "google_artifact_registry_repository" "this" {
 }
 
 locals {
-  image_url = "${var.region}-docker.pkg.dev/${var.project_id}/${google_artifact_registry_repository.this.repository_id}/${var.name}:latest"
+  # On first apply the real image doesn't exist yet (CI hasn't run).
+  # Use a public placeholder so Cloud Run can be created; CI will deploy the real image.
+  image_url = "us-docker.pkg.dev/cloudrun/container/hello:latest"
 }
 
 # ──────────────────────────────────────────────────────────────

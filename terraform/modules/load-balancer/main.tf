@@ -23,7 +23,6 @@ resource "google_compute_backend_service" "this" {
   project               = var.project_id
   name                  = "${var.name}-backend"
   protocol              = "HTTPS"
-  port_name             = "https"
   load_balancing_scheme = "EXTERNAL_MANAGED"
   timeout_sec           = 30
   security_policy       = var.security_policy_self_link
@@ -57,8 +56,9 @@ resource "google_compute_url_map" "http_redirect" {
   }
 }
 
-# Google-managed SSL certificate
+# Google-managed SSL certificate — only created when domains are provided
 resource "google_compute_managed_ssl_certificate" "this" {
+  count   = length(var.domains) > 0 ? 1 : 0
   project = var.project_id
   name    = "${var.name}-ssl-cert"
 
@@ -67,12 +67,13 @@ resource "google_compute_managed_ssl_certificate" "this" {
   }
 }
 
-# Target HTTPS proxy
+# Target HTTPS proxy — only created when domains are provided
 resource "google_compute_target_https_proxy" "this" {
+  count            = length(var.domains) > 0 ? 1 : 0
   project          = var.project_id
   name             = "${var.name}-https-proxy"
   url_map          = google_compute_url_map.https.id
-  ssl_certificates = [google_compute_managed_ssl_certificate.this.id]
+  ssl_certificates = [google_compute_managed_ssl_certificate.this[0].id]
 }
 
 # Target HTTP proxy (redirect only)
@@ -82,14 +83,15 @@ resource "google_compute_target_http_proxy" "redirect" {
   url_map = google_compute_url_map.http_redirect.id
 }
 
-# Forwarding rule — HTTPS (443)
+# Forwarding rule — HTTPS (443) — only created when domains are provided
 resource "google_compute_global_forwarding_rule" "https" {
+  count                 = length(var.domains) > 0 ? 1 : 0
   project               = var.project_id
   name                  = "${var.name}-https-fwd"
   ip_protocol           = "TCP"
   load_balancing_scheme = "EXTERNAL_MANAGED"
   port_range            = "443"
-  target                = google_compute_target_https_proxy.this.id
+  target                = google_compute_target_https_proxy.this[0].id
   ip_address            = google_compute_global_address.this.id
 }
 

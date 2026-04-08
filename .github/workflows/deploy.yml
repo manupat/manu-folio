@@ -35,7 +35,7 @@ env:
   SERVICE_NAME:                manu-folio
   IMAGE_NAME:                  manu-folio
   WORKLOAD_IDENTITY_PROVIDER:  projects/614386278583/locations/global/workloadIdentityPools/manu-folio-github-pool/providers/manu-folio-github-provider
-  SERVICE_ACCOUNT:             manu-folio-github-deploy@614386278583.iam.gserviceaccount.com
+  SERVICE_ACCOUNT:             github-deploy@project-e4404942-6d2f-4aff-96c.iam.gserviceaccount.com
 
 jobs:
   # ── Build & Push container image ────────────────────────────

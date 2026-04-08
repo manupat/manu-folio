@@ -29,7 +29,7 @@ output "cloud_armor_policy" {
 
 output "load_balancer_https_url" {
   description = "HTTPS URL once your domain DNS is configured and SSL cert is provisioned."
-  value       = "https://${var.domains[0]}"
+  value       = length(var.domains) > 0 ? "https://${var.domains[0]}" : "(no domain configured)"
 }
 
 output "workload_identity_provider" {

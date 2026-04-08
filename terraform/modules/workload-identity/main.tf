@@ -1,8 +1,9 @@
 # Service Account impersonated by GitHub Actions during CI/CD
+# Generic account_id so it can be reused across multiple services in this project.
 resource "google_service_account" "github_deploy" {
   project      = var.project_id
-  account_id   = "${var.name}-github-deploy"
-  display_name = "GitHub Actions deploy SA for ${var.name}"
+  account_id   = "github-deploy"
+  display_name = "GitHub Actions deploy SA"
   description  = "Impersonated by GitHub Actions via Workload Identity Federation."
 }
 
