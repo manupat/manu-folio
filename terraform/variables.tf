@@ -54,3 +54,14 @@ variable "blocked_countries" {
   type        = list(string)
   default     = []
 }
+
+variable "github_repository_owner" {
+  description = "GitHub user or organisation that owns the repository (e.g. 'manupat'). Used to scope the Workload Identity pool."
+  type        = string
+}
+
+variable "github_repository_name" {
+  description = "GitHub repository name (e.g. 'manu-folio'). Used to scope the Workload Identity pool."
+  type        = string
+  default     = "manu-folio"
+}
