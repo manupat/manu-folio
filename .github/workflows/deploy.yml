@@ -56,8 +56,13 @@ jobs:
         with:
           workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
           service_account:            ${{ env.SERVICE_ACCOUNT }}
-      - name: Configure Docker for Artifact Registry
-        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+          token_format:               access_token
+      # Use the access token directly — gcloud credential helper doesn't work with buildx
+      - name: Authenticate Docker to Artifact Registry
+        run: |
+          echo "${{ steps.auth.outputs.access_token }}" \
+            | docker login -u oauth2accesstoken --password-stdin \
+                https://${{ env.REGION }}-docker.pkg.dev
 
       # Derive the full image URL: <region>-docker.pkg.dev/<project>/<repo>/<name>:<sha>
       - id: meta
