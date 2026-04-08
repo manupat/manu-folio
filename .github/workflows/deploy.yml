@@ -30,10 +30,12 @@ permissions:
   id-token: write   # required for Workload Identity Federation
 
 env:
-  PROJECT_ID:    ${{ secrets.GCP_PROJECT_ID }}
-  REGION:        ${{ secrets.GCP_REGION }}
-  SERVICE_NAME:  manu-folio        # must match var.name in terraform
-  IMAGE_NAME:    manu-folio
+  PROJECT_ID:                  "614386278583"
+  REGION:                      "europe-west1"
+  SERVICE_NAME:                manu-folio
+  IMAGE_NAME:                  manu-folio
+  WORKLOAD_IDENTITY_PROVIDER:  projects/614386278583/locations/global/workloadIdentityPools/manu-folio-github-pool/providers/manu-folio-github-provider
+  SERVICE_ACCOUNT:             manu-folio-github-deploy@614386278583.iam.gserviceaccount.com
 
 jobs:
   # ── Build & Push container image ────────────────────────────
@@ -52,10 +54,8 @@ jobs:
         name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account:            ${{ secrets.GCP_SERVICE_ACCOUNT }}
-
-      # Configure Docker to push to Artifact Registry
+          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account:            ${{ env.SERVICE_ACCOUNT }}
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
 
@@ -99,8 +99,8 @@ jobs:
         name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account:            ${{ secrets.GCP_SERVICE_ACCOUNT }}
+          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account:            ${{ env.SERVICE_ACCOUNT }}
 
       - name: Deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v2
