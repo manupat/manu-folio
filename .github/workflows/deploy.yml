@@ -56,13 +56,10 @@ jobs:
         with:
           workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
           service_account:            ${{ env.SERVICE_ACCOUNT }}
-          token_format:               access_token
-      # Use the access token directly — gcloud credential helper doesn't work with buildx
+      # Use gcloud CLI as credential helper for Artifact Registry
       - name: Authenticate Docker to Artifact Registry
-        run: |
-          echo "${{ steps.auth.outputs.access_token }}" \
-            | docker login -u oauth2accesstoken --password-stdin \
-                https://${{ env.REGION }}-docker.pkg.dev
+        shell: bash
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev -q
 
       # Derive the full image URL: <region>-docker.pkg.dev/<project>/<repo>/<name>:<sha>
       - id: meta
@@ -76,7 +73,7 @@ jobs:
           echo "latest_tag=${LATEST_TAG}" >> "$GITHUB_ENV"
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f
 
       - name: Build and push
         uses: docker/build-push-action@v6
