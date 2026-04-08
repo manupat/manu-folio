@@ -36,10 +36,18 @@ resource "google_iam_workload_identity_pool_provider" "github" {
   }
 }
 
-# Bind WIF principal set → impersonate SA
+# Bind WIF principal set → impersonate SA (allows identity exchange)
 resource "google_service_account_iam_member" "wif_impersonation" {
   service_account_id = google_service_account.github_deploy.name
   role               = "roles/iam.workloadIdentityUser"
+  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.github.name}/attribute.repository/${var.github_repository_owner}/${var.github_repository_name}"
+}
+
+# Allow WIF principal to generate short-lived access tokens for the SA
+# Required when using token_format: access_token in google-github-actions/auth
+resource "google_service_account_iam_member" "wif_token_creator" {
+  service_account_id = google_service_account.github_deploy.name
+  role               = "roles/iam.serviceAccountTokenCreator"
   member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.github.name}/attribute.repository/${var.github_repository_owner}/${var.github_repository_name}"
 }
 

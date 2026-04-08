@@ -30,7 +30,7 @@ permissions:
   id-token: write   # required for Workload Identity Federation
 
 env:
-  PROJECT_ID:                  "614386278583"
+  PROJECT_ID:                  "project-e4404942-6d2f-4aff-96c"
   REGION:                      "europe-west1"
   SERVICE_NAME:                manu-folio
   IMAGE_NAME:                  manu-folio
@@ -56,14 +56,10 @@ jobs:
         with:
           workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
           service_account:            ${{ env.SERVICE_ACCOUNT }}
-          token_format:               access_token
-      # Inject token directly into Docker — gcloud credential helper fails in buildx subprocesses
+      # Use gcloud CLI as credential helper for Artifact Registry
       - name: Authenticate Docker to Artifact Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGION }}-docker.pkg.dev
-          username: oauth2accesstoken
-          password: ${{ steps.auth.outputs.access_token }}
+        shell: bash
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev -q
 
       # Derive the full image URL: <region>-docker.pkg.dev/<project>/<repo>/<name>:<sha>
       - id: meta
