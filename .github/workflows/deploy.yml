@@ -39,7 +39,7 @@ jobs:
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: app   # deploy everything in the app/ folder
+          path: .   # deploy from repo root
 
       - id: deployment
         name: Deploy to GitHub Pages
