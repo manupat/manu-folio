@@ -223,7 +223,10 @@ body {
 }
 .about-text strong { color: var(--text); }
 
-.about-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.about-cards { display: flex; flex-direction: column; gap: 1rem; }
+.profile-photo-wrap { display: flex; justify-content: center; }
+.profile-photo { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; object-position: center top; border: 3px solid var(--accent); box-shadow: 0 0 0 6px rgba(100,255,218,0.1); }
+.stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
 .stat-card {
   background: var(--surface); border: 1px solid var(--border);
