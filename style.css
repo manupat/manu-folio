@@ -225,7 +225,12 @@ body {
 
 .about-cards { display: flex; flex-direction: column; gap: 1rem; }
 .profile-photo-wrap { display: flex; justify-content: center; }
-.profile-photo { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; object-position: center top; border: 3px solid var(--accent); box-shadow: 0 0 0 6px rgba(100,255,218,0.1); }
+.profile-photo {
+  width: clamp(100px, 18vw, 140px);
+  height: clamp(100px, 18vw, 140px);
+  border-radius: 50%; object-fit: cover; object-position: center top;
+  border: 3px solid var(--accent); box-shadow: 0 0 0 6px rgba(108,99,255,0.12);
+}
 .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
 .stat-card {
@@ -324,7 +329,7 @@ body {
    SKILLS
 ───────────────────────────────────────────────────────────── */
 .skills-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 1.5rem;
 }
 
 .skill-category {
@@ -355,7 +360,7 @@ body {
    EDUCATION
 ───────────────────────────────────────────────────────────── */
 .edu-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 1.5rem;
 }
 
 .edu-card {
@@ -422,10 +427,84 @@ footer strong { color: var(--accent2); }
 /* ─────────────────────────────────────────────────────────────
    RESPONSIVE
 ───────────────────────────────────────────────────────────── */
+
+/* Nav hamburger */
+@media (max-width: 720px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  #navbar { padding: 1rem 1.25rem; }
+  #navbar.scrolled { padding: 0.7rem 1.25rem; }
+  #navbar.open .nav-links {
+    display: flex; flex-direction: column;
+    position: absolute; top: 100%; left: 0; right: 0;
+    background: var(--bg2); padding: 1.5rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    gap: 1.25rem;
+  }
+}
+
+/* About grid stacks */
+@media (max-width: 768px) {
+  .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+}
+
+/* Tablet: tighten padding */
+@media (max-width: 900px) {
+  .section { padding: 4.5rem 1.25rem; }
+  .timeline::before { left: 16px; }
+  .timeline-item { gap: 1.25rem; }
+  .timeline-marker { width: 36px; }
+}
+
+/* Mobile */
 @media (max-width: 600px) {
+  /* Global */
+  .section { padding: 3.5rem 1rem; }
+  .section-title { margin-bottom: 2rem; }
+
+  /* Hero */
+  #hero { padding: 5rem 1rem 3rem; }
+  .hero-cta { flex-direction: column; align-items: center; }
+  .btn { width: 100%; max-width: 280px; justify-content: center; }
+  .scroll-hint { display: none; }
+
+  /* About photo sizing on very small screens */
+  .profile-photo {
+    width: 110px;
+    height: 110px;
+  }
+  .stat-row { gap: 0.75rem; }
+  .stat-card { padding: 1rem; }
+  .stat-number { font-size: 2rem; }
+
+  /* Timeline */
   .timeline::before { left: 13px; }
-  .timeline-item { gap: 1rem; }
+  .timeline-item { gap: 0.85rem; }
   .timeline-marker { width: 28px; }
-  .card-header { flex-direction: column; }
-  .contact-card { min-width: 100%; }
+  .timeline-card { padding: 1.25rem; }
+  .timeline-card:hover { transform: none; } /* no translateX on touch */
+  .card-header { flex-direction: column; gap: 0.5rem; }
+  .card-company { font-size: 1rem; }
+  .highlight { font-size: 0.83rem; }
+
+  /* Skills */
+  .skills-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .skill-category { padding: 1.25rem; }
+  .skill-category:hover { transform: none; }
+
+  /* Education */
+  .edu-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .edu-card { padding: 1.25rem; }
+  .edu-card:hover { transform: none; }
+
+  /* Contact */
+  .contact-card { min-width: unset; width: 100%; max-width: 340px; }
+  .contact-links { flex-direction: column; align-items: center; }
+}
+
+/* Prevent horizontal overflow globally */
+@media (max-width: 480px) {
+  .skills-grid { grid-template-columns: minmax(0, 1fr); }
+  .edu-grid { grid-template-columns: minmax(0, 1fr); }
+  .card-tags span { font-size: 0.68rem; }
 }
